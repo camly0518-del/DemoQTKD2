@@ -1,0 +1,9 @@
+﻿request_id,customer_name,contact_email,items_text,budget,expected_deadline_days,requested_discount_percent,notes
+YC-001,Công ty TNHH Giải pháp FPT Smart,procurement@fptsmart.vn,2x Cisco Catalyst 9200L 24P; 1x Dịch vụ lắp đặt và cấu hình cơ bản,100000000,10,3.0,Cần hoàn thiện triển khai văn phòng mới trước ngày 25.
+YC-002,Ngân hàng Thương mại Việt Á,it_infra@vietabank.com.vn,5x Aruba AP-505; 1x APC Smart-UPS 3000VA,95000000,7,3.0,Yêu cầu giao hàng giờ hành chính kèm biên bản CO/CQ.
+YC-003,Công ty Cổ phần Vận tải Biển Đông,info@biendongmaritime.com,Máy chủ Dell PowerEdge R750; Switch Cisco,0,15,0.0,"Cần tư vấn cấu hình và báo giá gấp, chưa có ngân sách cụ thể."
+YC-004,Tập đoàn Đầu tư Alpha,,1x FortiGate 100F; 2x Cisco Catalyst 9200L 24P,160000000,0,5.0,Gửi qua hotline không để lại email liên hệ trực tiếp.
+YC-005,Bệnh viện Đa khoa Quốc tế Hoàn Mỹ,it@hoanmyhospital.vn,10x Máy chủ HPE ProLiant DL380 Gen10,1500000000,3,5.0,"Cần giao ngay trong 3 ngày để kịp nghiệm thu dự án Bộ Y tế (Kho chỉ còn 3 chiếc, cần 18 ngày)."
+YC-006,Trường Quốc tế Sky Academy,admin@skyacademy.edu.vn,20x Máy in Canon Laser LBP2900; 1x Switch Cisco 9200L,100000000,10,0.0,"Công ty Minh An chỉ cung cấp hạ tầng máy chủ và mạng, không phân phối máy in Canon."
+YC-007,Công ty CP Logistics Tân Cảng,muahang@tancanglogistics.com,3x Dell PowerEdge R750; 2x Cisco Catalyst 9300 48P; 1x Dịch vụ triển khai và di chuyển hệ thống nâng cao,650000000,20,8.0,"Khách hàng VIP, yêu cầu chiết khấu 8% theo đơn hàng lớn (khoảng 640 triệu). Vượt quyền NVKD."
+YC-008,Công ty TNHH Bất động sản Phú Thịnh,duan@phuthinhland.com,2x FortiGate 100F; 4x Cisco Catalyst 9200L 24P,280000000,14,10.0,Đơn hàng 298 triệu nhưng khách đòi chiết khấu 10% mới chịu ký. Cần Trưởng phòng phê duyệt.

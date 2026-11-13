@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payd - AI Agent Xử Lý Cơ Hội Bán Hàng B2B Minh An</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f6f8fb;
+      color: #1e293b;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .payd-card {
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+      border: 1px solid #f1f5f9;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 md:p-6 flex flex-col justify-between">
+
+  <!-- ================= TOP NAVIGATION / VIEW SWITCHER ================= -->
+  <div class="max-w-[1440px] w-full mx-auto mb-4 flex items-center justify-between px-2">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-sm">
+        P
+      </div>
+      <div>
+        <span class="text-sm font-extrabold text-slate-900 tracking-tight">Hệ Thống AI Agent B2B Minh An</span>
+        <span class="text-xs text-slate-400 ml-2">| Đề án AI301</span>
+      </div>
+    </div>
+
+    <!-- Nút chuyển giữa Màn hình Khởi động Workflow và Màn hình Payd Dashboard -->
+    <div class="flex items-center space-x-2 bg-slate-200/70 p-1 rounded-2xl text-xs font-bold">
+      <button id="btnTabLaunch" onclick="switchMainScreen('screenLauncher')" class="px-4 py-2 rounded-xl bg-white shadow-sm text-slate-900 font-extrabold transition flex items-center space-x-1.5">
+        <span>⚙️ 1. Khởi động Quy trình</span>
+      </button>
+      <button id="btnTabDashboard" onclick="switchMainScreen('screenDashboard')" class="px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center space-x-1.5">
+        <span>📊 2. Payd Dashboard</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= SCREEN 1: MÀN HÌNH KHỞI ĐỘNG QUY TRÌNH (THEO WORKFLOW THỰC THỤ) ================= -->
+  <div id="screenLauncher" class="max-w-[1440px] w-full mx-auto payd-card p-6 md:p-10 space-y-8 flex-1 flex flex-col justify-between">
+    
+    <!-- Header của Workflow Screen -->
+    <div class="space-y-2 border-b border-slate-100 pb-6">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-extrabold">
+        <span class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
+        <span>Quy Trình Xử Lý Dữ Liệu Tự Động (AI Agent Workflow)</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+        Chu Trình Xử Lý Cơ Hội Bán Hàng B2B Công Ty Minh An
+      </h1>
+      <p class="text-xs md:text-sm text-slate-500 max-w-3xl">
+        Thực hiện tuần tự: Nạp AI Template &rarr; Kết nối Sheet / Lark Base &rarr; Làm sạch dữ liệu (Cleaning) &rarr; Xử lý Thẩm định Kho &amp; Giá (Process) &rarr; Kiểm tra Thẩm quyền (Verify) &rarr; Xuất HTML Dashboard &amp; Báo cáo.
+      </p>
+    </div>
+
+    <!-- Stepper Workflow Minh Họa Trực Quan (Không đè chữ, rõ ràng, hiện đại) -->
+    <div class="bg-slate-50/80 rounded-2xl p-6 border border-slate-200/70 space-y-4">
+      <div class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Các Bước Trong Chu Trình Tự Động</div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <!-- Step 1 -->
+        <div id="step-card-1" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-purple-100 text-purple-800">Bước 1</span>
+            <span id="step-icon-1" class="text-xs text-slate-400">📋</span>
+          </div>
+          <div class="text-xs font-bold text-slate-900">Dùng AI Template &amp; Sheet</div>
+          <div class="text-[11px] text-slate-500 leading-tight">Nạp bảng cấu trúc chuẩn từ Sheet / Lark Base / Excel.</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="step-card-2" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">Bước 2</span>
+            <span id="step-icon-2" class="text-xs text-slate-400">🧹</span>
+          </div>
+          <div class="text-xs font-bold text-slate-900">Cleaning Dữ Liệu</div>
+          <div class="text-[11px] text-slate-500 leading-tight">Chuẩn hóa tên cột, bóc tách thực thể &amp; phát hiện thiếu sót.</div>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="step-card-3" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">Bước 3</span>
+            <span id="step-icon-3" class="text-xs text-slate-400">⚙️</span>
+          </div>
+          <div class="text-xs font-bold text-slate-900">Process Nghiệp Vụ</div>
+          <div class="text-[11px] text-slate-500 leading-tight">Thẩm định tồn kho tức thì, tra giá Catalog và chiết khấu.</div>
+        </div>
+
+        <!-- Step 4 -->
+        <div id="step-card-4" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">Bước 4</span>
+            <span id="step-icon-4" class="text-xs text-slate-400">🛡️</span>
+          </div>
+          <div class="text-xs font-bold text-slate-900">Verify &amp; Phân Quyền</div>
+          <div class="text-[11px] text-slate-500 leading-tight">Kiểm tra hạn mức 300M, CK 5%, tạo phiếu duyệt nếu vượt.</div>
+        </div>
+
+        <!-- Step 5 -->
+        <div id="step-card-5" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">Bước 5</span>
+            <span id="step-icon-5" class="text-xs text-slate-400">📊</span>
+          </div>
+          <div class="text-xs font-bold text-slate-900">Xuất HTML Dashboard</div>
+          <div class="text-[11px] text-slate-500 leading-tight">Render Dashboard Payd và Báo cáo (bc) trực tiếp.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Ingestion Form (Chọn nguồn dữ liệu thực tế) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Option A: Built-in 8 cases -->
+      <div onclick="selectDataSource('sample')" id="card-src-sample" class="p-5 rounded-2xl border-2 border-purple-500 bg-purple-50/40 cursor-pointer transition space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-black text-purple-900">1. Bộ Test Mẫu Chuẩn (8 Yêu Cầu)</span>
+          <span class="w-4 h-4 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px]">✓</span>
+        </div>
+        <p class="text-[11px] text-slate-600 leading-relaxed">
+          Bao gồm đủ: 2 cơ hội thông thường, 2 cơ hội thiếu dữ liệu, 2 cơ hội không đáp ứng kho, 2 cơ hội vượt thẩm quyền (>300M &amp; CK >5%).
+        </p>
+      </div>
+
+      <!-- Option B: Upload File Excel / CSV -->
+      <div onclick="selectDataSource('file')" id="card-src-file" class="p-5 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-black text-slate-800">2. Tải File Excel (.xlsx) / CSV</span>
+          <span class="text-xs text-slate-400">📁</span>
+        </div>
+        <p class="text-[11px] text-slate-500 leading-relaxed">
+          Kéo thả hoặc tải tập tin dữ liệu kiểm thử mới của Giảng viên.
+        </p>
+        <input type="file" id="localFileInput" accept=".xlsx,.xls,.csv" class="hidden" onchange="handleFileChosen(event)">
+      </div>
+
+      <!-- Option C: Google Sheets / Lark Base URL -->
+      <div onclick="selectDataSource('sheet')" id="card-src-sheet" class="p-5 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-black text-slate-800">3. Link Google Sheet / Lark Base</span>
+          <span class="text-xs text-slate-400">🔗</span>
+        </div>
+        <p class="text-[11px] text-slate-500 leading-relaxed">
+          Dán đường link bảng tính online công khai để Agent fetch tự động.
+        </p>
+      </div>
+    </div>
+
+    <!-- Input details if File or Sheet is chosen -->
+    <div id="customInputArea" class="hidden bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+      <div id="fileChosenLabel" class="text-xs font-bold text-slate-700 hidden"></div>
+      <div id="sheetInputBox" class="hidden space-y-2">
+        <label class="text-xs font-bold text-slate-700">Dán URL Google Sheets / Lark Base:</label>
+        <div class="flex space-x-2">
+          <input type="url" id="sheetUrlText" placeholder="https://docs.google.com/spreadsheets/d/.../edit" class="flex-1 text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-purple-500">
+        </div>
+      </div>
+    </div>
+
+    <!-- Execution Status Bar (Hiển thị khi đang chạy) -->
+    <div id="runProgressBox" class="hidden space-y-2 bg-purple-50 p-4 rounded-2xl border border-purple-200">
+      <div class="flex items-center justify-between text-xs">
+        <div class="flex items-center space-x-2">
+          <div class="w-4 h-4 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+          <span id="runProgressText" class="font-extrabold text-purple-900">Đang khởi tạo quy trình...</span>
+        </div>
+        <span id="runProgressPercent" class="font-bold text-purple-700">0%</span>
+      </div>
+      <div class="w-full bg-purple-200 rounded-full h-2 overflow-hidden">
+        <div id="runProgressBar" class="bg-purple-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- BIG PROMINENT ACTION BUTTON: BẮT ĐẦU QUY TRÌNH -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-100">
+      <div class="text-xs text-slate-500">
+        💡 Nhấn nút để AI Agent chạy tự động toàn trình và mở ngay <b>Payd Dashboard</b>.
+      </div>
+
+      <button id="mainStartBtn" onclick="executeWorkflowProcess()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-sm tracking-wide rounded-2xl shadow-xl shadow-purple-200 hover:shadow-purple-300 transform hover:-translate-y-0.5 active:translate-y-0 transition flex items-center justify-center space-x-3 cursor-pointer">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>BẮT ĐẦU QUY TRÌNH</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- ================= SCREEN 2: PAYD DASHBOARD (CHÍNH XÁC NHƯ ẢNH 1) ================= -->
+  <div id="screenDashboard" class="hidden max-w-[1440px] w-full mx-auto payd-card flex overflow-hidden min-h-[860px]">
+
+    <!-- Payd Left Sidebar -->
+    <aside class="w-60 p-6 flex flex-col justify-between shrink-0 select-none bg-white border-r border-slate-100">
+      <div>
+        <!-- Payd Logo -->
+        <div class="pb-8 px-2">
+          <span class="text-2xl font-black text-slate-900 tracking-tight" style="font-family: 'Space Grotesk', sans-serif;">Payd</span>
+        </div>
+
+        <!-- Payments Group -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-400 px-2 mb-2">
+            <span>Payments</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
+          </div>
+          <nav class="space-y-1 text-xs font-semibold text-slate-500">
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+              <span>Transactions</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              <span>Customers</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+              <span>Payouts</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl bg-slate-50/90 text-slate-900 font-extrabold transition">
+              <svg class="w-4 h-4 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Balances</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Subscriptions</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+              <span>Payment plans</span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Commerce Group -->
+        <div class="mt-8 space-y-1">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-400 px-2 mb-2">
+            <span>Commerce</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <nav class="space-y-1 text-xs font-semibold text-slate-500">
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+              <span>Referrals</span>
+            </a>
+            <a href="#tableSection" class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              <span>Audit logs</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-slate-50 transition">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <span>Settings</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Quay lại Workflow nút bấm -->
+      <div class="pt-6 border-t border-slate-100">
+        <button onclick="switchMainScreen('screenLauncher')" class="w-full py-2.5 px-3 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold rounded-xl flex items-center justify-center space-x-1.5 transition">
+          <span>&larr; Cấu hình lại Workflow</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Payd Main Workspace -->
+    <main class="flex-1 flex flex-col overflow-y-auto custom-scrollbar bg-white">
+
+      <!-- Top Header Bar -->
+      <div class="h-20 px-8 flex items-center justify-between border-b border-slate-100 sticky top-0 bg-white/95 backdrop-blur z-20">
+        <!-- Search -->
+        <div class="relative w-80">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </span>
+          <input type="text" id="paydSearchInput" oninput="filterDashboardTable()" placeholder="Search..." class="w-full pl-11 pr-4 py-2 text-xs bg-slate-50 border border-transparent rounded-full focus:bg-white focus:border-slate-300 outline-none">
+        </div>
+
+        <!-- Controls right side -->
+        <div class="flex items-center space-x-6">
+          <!-- Live switch (Green toggle) -->
+          <div class="flex items-center space-x-2">
+            <div class="w-9 h-5 bg-emerald-500 rounded-full p-0.5 flex items-center justify-end shadow-xs cursor-pointer">
+              <div class="w-4 h-4 bg-white rounded-full shadow-sm"></div>
+            </div>
+            <span class="text-xs font-bold text-slate-600">Live</span>
+          </div>
+
+          <!-- Language -->
+          <div class="flex items-center space-x-1 text-xs font-bold text-slate-600 cursor-pointer">
+            <span>English</span>
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+
+          <!-- Bell with purple dot -->
+          <div class="relative cursor-pointer">
+            <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-purple-500 rounded-full border-2 border-white"></span>
+          </div>
+
+          <!-- User avatar & Name -->
+          <div class="flex items-center space-x-3 pl-2 cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover">
+            <div class="text-left">
+              <div class="text-xs font-extrabold text-slate-800 flex items-center space-x-1">
+                <span>Anddy's Makeover</span>
+                <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+              <div class="text-[10px] text-slate-400 font-medium">ID: 1234567</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Workspace Body -->
+      <div class="p-8 space-y-8">
+        
+        <!-- Headline -->
+        <div class="space-y-1">
+          <div class="text-xs font-bold text-amber-500 flex items-center space-x-1">
+            <span>👋 Hey Anddy!</span>
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">
+            You earned <span class="text-slate-900">NGN 3 ,000,000</span> this month.
+          </h2>
+          <div class="text-xs text-slate-400 font-semibold pt-1">
+            Quy đổi Pipeline B2B Minh An: <b class="text-purple-600">1,036,350,000 VNĐ</b> (8 cơ hội đã qua bước Verify &amp; Xuất HTML)
+          </div>
+        </div>
+
+        <!-- Filter & Rounded Lavender Bar Chart (Y hệt ảnh 1) -->
+        <div class="space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-extrabold text-slate-700 cursor-pointer">
+            <span>Last 30 days</span>
+            <svg class="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+
+          <div class="bg-slate-50/50 rounded-3xl p-6 border border-slate-100">
+            <div class="relative h-60 w-full">
+              <canvas id="paydBarChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Two Cards: Success Rate (98%) & Payment Issues -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Card 1: Success Rate (98%) -->
+          <div class="bg-emerald-50/40 rounded-3xl p-6 border border-emerald-100/60 flex flex-col justify-between">
+            <span class="text-xs font-extrabold text-slate-800">Success rate</span>
+
+            <div class="my-4 flex items-center justify-center relative">
+              <svg class="w-36 h-36 transform -rotate-90">
+                <circle cx="72" cy="72" r="54" stroke="#dcfce7" stroke-width="12" fill="transparent" />
+                <circle cx="72" cy="72" r="54" stroke="#86efac" stroke-width="12" stroke-dasharray="339" stroke-dashoffset="12" stroke-linecap="round" fill="transparent" />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span class="text-xl font-black text-slate-800">98%</span>
+              </div>
+            </div>
+
+            <div class="text-[11px] text-center text-slate-500 font-semibold">
+              Tỷ lệ đối chiếu tồn kho &amp; SLA thành công 98% cho các đơn hàng hợp lệ
+            </div>
+          </div>
+
+          <!-- Card 2: Payment Issues (4 cột: 1, 5, 3, 10) -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-slate-800">Payment issues</span>
+            </div>
+
+            <div class="my-4 flex items-end justify-around h-28 px-4 border-b border-slate-100 pb-2">
+              <div class="flex flex-col items-center space-y-1">
+                <span class="text-[10px] font-bold text-slate-600">1</span>
+                <div class="w-8 h-4 bg-amber-300 rounded-t-md"></div>
+                <span class="text-[9px] text-slate-400">a</span>
+              </div>
+              <div class="flex flex-col items-center space-y-1">
+                <span class="text-[10px] font-bold text-slate-600">5</span>
+                <div class="w-8 h-12 bg-amber-400 rounded-t-md"></div>
+                <span class="text-[9px] text-slate-400">x</span>
+              </div>
+              <div class="flex flex-col items-center space-y-1">
+                <span class="text-[10px] font-bold text-slate-600">3</span>
+                <div class="w-8 h-8 bg-rose-400 rounded-t-md"></div>
+                <span class="text-[9px] text-slate-400">o</span>
+              </div>
+              <div class="flex flex-col items-center space-y-1">
+                <span class="text-[10px] font-bold text-slate-600">10</span>
+                <div class="w-8 h-20 bg-teal-400 rounded-t-md"></div>
+                <span class="text-[9px] text-slate-400">n</span>
+              </div>
+            </div>
+
+            <div class="space-y-1.5 text-[11px]">
+              <div class="font-extrabold text-amber-600">Total number of errors: 19</div>
+              <div class="flex items-center space-x-4 text-[10px] text-slate-500 font-semibold">
+                <span class="flex items-center space-x-1">
+                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                  <span>Customer errors</span>
+                </span>
+                <span class="flex items-center space-x-1">
+                  <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                  <span>Fraud blocks</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Section: Bảng Cơ hội Bán Hàng & Báo Cáo (bc) Tích Hợp Sạch Đẹp -->
+        <div id="tableSection" class="pt-4 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-base font-extrabold text-slate-900">Danh Sách Cơ Hội Bán Hàng (Hồ sơ bc)</h3>
+              <p class="text-xs text-slate-400">Bấm vào bất kỳ dòng nào để xem chi tiết Báo giá, Dự thảo Email, và Phiếu trình ký Trưởng phòng</p>
+            </div>
+            
+            <!-- Bộ lọc trạng thái -->
+            <select id="tableFilterStatus" onchange="filterDashboardTable()" class="text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 outline-none cursor-pointer">
+              <option value="ALL">Tất cả trạng thái (8)</option>
+              <option value="Có thể tiếp tục">Có thể tiếp tục (2)</option>
+              <option value="Cần bổ sung thông tin">Cần bổ sung thông tin (2)</option>
+              <option value="Chưa đáp ứng">Chưa đáp ứng (2)</option>
+              <option value="Chờ duyệt">Chờ duyệt (2)</option>
+            </select>
+          </div>
+
+          <!-- 3 Thẻ Chỉ số Tài chính Theo Đề Thi AI301 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-4">
+              <div class="text-[10px] font-bold text-emerald-700 uppercase">💰 Tổng Giá trị Đủ điều kiện tiếp tục</div>
+              <div id="metricValQualified" class="text-lg font-black text-emerald-900 mt-1">177,510,000 VNĐ</div>
+              <div class="text-[10px] text-emerald-600">Đơn hàng trong thẩm quyền tự quyết của NVKD</div>
+            </div>
+            <div class="bg-blue-50/70 border border-blue-100 rounded-2xl p-4">
+              <div class="text-[10px] font-bold text-blue-700 uppercase">⚖️ Tổng Giá trị Chờ Trưởng phòng duyệt</div>
+              <div id="metricValPending" class="text-lg font-black text-blue-900 mt-1">858,840,000 VNĐ</div>
+              <div class="text-[10px] text-blue-600">Đơn lớn >300tr hoặc chiết khấu >5%</div>
+            </div>
+            <div class="bg-purple-50/70 border border-purple-100 rounded-2xl p-4">
+              <div class="text-[10px] font-bold text-purple-700 uppercase">📈 Tổng Pipeline Khả thi</div>
+              <div id="metricValTotal" class="text-lg font-black text-purple-900 mt-1">1,036,350,000 VNĐ</div>
+              <div class="text-[10px] text-purple-600">Cơ hội đủ điều kiện + Chờ duyệt</div>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="overflow-x-auto rounded-2xl border border-slate-100">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
+                <tr>
+                  <th class="py-3 px-4">Mã Đơn</th>
+                  <th class="py-3 px-4">Khách hàng / Doanh nghiệp</th>
+                  <th class="py-3 px-4">Trạng thái</th>
+                  <th class="py-3 px-4">NVKD Phụ trách</th>
+                  <th class="py-3 px-4 text-right">Giá niêm yết</th>
+                  <th class="py-3 px-4 text-center">CK (%)</th>
+                  <th class="py-3 px-4 text-right">Giá sau CK</th>
+                  <th class="py-3 px-4 text-center">Lead-time</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Payd Right Sidebar (Messages & Stats) -->
+    <aside class="w-72 border-l border-slate-100 p-6 flex flex-col justify-between shrink-0 select-none bg-slate-50/40">
+      <div>
+        <div class="flex items-center justify-around border-b border-slate-200/60 pb-3 mb-4">
+          <button class="text-xs font-semibold text-slate-400 hover:text-slate-600">Stats</button>
+          <button class="text-xs font-black text-slate-900 border-b-2 border-slate-900 pb-1">Messages</button>
+        </div>
+
+        <!-- Messages list -->
+        <div class="space-y-3">
+          <div onclick="openDossierById('YC-001')" class="p-3 bg-white rounded-2xl border border-slate-100 shadow-xs hover:border-purple-300 transition cursor-pointer flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold text-xs flex items-center justify-center">J</div>
+              <div class="text-left">
+                <div class="text-xs font-extrabold text-slate-900 leading-tight">James Robinson</div>
+                <div class="text-[10px] text-slate-400 truncate max-w-[120px]">FPT Smart (89.2M đ)</div>
+              </div>
+            </div>
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+
+          <div onclick="openDossierById('YC-007')" class="p-3 bg-white rounded-2xl border border-slate-100 shadow-xs hover:border-purple-300 transition cursor-pointer flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold text-xs flex items-center justify-center">E</div>
+              <div class="text-left">
+                <div class="text-xs font-extrabold text-slate-900 leading-tight">Eseosa Igbinobaro</div>
+                <div class="text-[10px] text-slate-400 truncate max-w-[120px]">Tân Cảng (588.8M đ)</div>
+              </div>
+            </div>
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+
+          <div onclick="openDossierById('YC-002')" class="p-3 bg-white rounded-2xl border border-slate-100 shadow-xs hover:border-purple-300 transition cursor-pointer flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold text-xs flex items-center justify-center">J</div>
+              <div class="text-left">
+                <div class="text-xs font-extrabold text-slate-900 leading-tight">James Robinson</div>
+                <div class="text-[10px] text-slate-400 truncate max-w-[120px]">Việt Á Bank (88.2M đ)</div>
+              </div>
+            </div>
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+
+          <div onclick="openDossierById('YC-003')" class="p-3 bg-white rounded-2xl border border-slate-100 shadow-xs hover:border-purple-300 transition cursor-pointer flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center">L</div>
+              <div class="text-left">
+                <div class="text-xs font-extrabold text-slate-900 leading-tight">Lupita Jonah</div>
+                <div class="text-[10px] text-slate-400 truncate max-w-[120px]">Cần bổ sung thông tin</div>
+              </div>
+            </div>
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+
+          <div onclick="openDossierById('YC-008')" class="p-3 bg-white rounded-2xl border border-slate-100 shadow-xs hover:border-purple-300 transition cursor-pointer flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center">G</div>
+              <div class="text-left">
+                <div class="text-xs font-extrabold text-slate-900 leading-tight">Gerrit James</div>
+                <div class="text-[10px] text-slate-400 truncate max-w-[120px]">BĐS Phú Thịnh (Chờ duyệt)</div>
+              </div>
+            </div>
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer action -->
+      <div class="pt-4 border-t border-slate-200">
+        <button onclick="switchMainScreen('screenLauncher')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition">
+          Chạy Tập Dữ Liệu Mới &rarr;
+        </button>
+      </div>
+    </aside>
+
+  </div>
+
+
+  <!-- ================= MODAL POPUP: CHI TIẾT HỒ SƠ CƠ HỘI ================= -->
+  <div id="dossierModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl border border-slate-200 p-6 md:p-8 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div>
+          <span id="modalOppId" class="text-xs font-extrabold text-purple-600 uppercase tracking-wider">OPP-001</span>
+          <h2 id="modalCustName" class="text-xl font-black text-slate-900">Chi tiết Hồ sơ Cơ hội</h2>
+          <p id="modalContact" class="text-xs text-slate-400">Liên hệ: contact@example.com</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <span id="modalStatusBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">Có thể tiếp tục</span>
+          <button onclick="closeModal('dossierModal')" class="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Items Table -->
+      <div>
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">1. Thẩm định Hạng mục &amp; Tồn kho Vận hành</h3>
+        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-400 uppercase text-[10px]">
+              <tr>
+                <th class="p-2.5">Mã SKU</th>
+                <th class="p-2.5">Tên Sản phẩm / Dịch vụ</th>
+                <th class="p-2.5 text-center">SL</th>
+                <th class="p-2.5 text-right">Đơn giá niêm yết</th>
+                <th class="p-2.5 text-center">Tồn kho</th>
+                <th class="p-2.5 text-center">Lead-time</th>
+                <th class="p-2.5 text-right">Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody id="modalItemsBody" class="divide-y divide-slate-100 font-medium"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Financials and Next Steps -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs">
+        <div class="space-y-1.5">
+          <div class="font-bold text-slate-900 uppercase text-[11px]">Chỉ số Tài chính</div>
+          <div>Tổng giá niêm yết: <b id="modalListPrice">0 VNĐ</b></div>
+          <div>Chiết khấu áp dụng: <b id="modalDiscount">0%</b></div>
+          <div>Tổng giá trị đề xuất sau CK: <b id="modalFinalPrice" class="text-purple-600">0 VNĐ</b></div>
+          <div>Ngân sách khách hàng: <b id="modalBudget">0 VNĐ</b></div>
+        </div>
+        <div class="space-y-1.5">
+          <div class="font-bold text-slate-900 uppercase text-[11px]">Căn cứ &amp; Bước tiếp theo</div>
+          <div id="modalNextStep" class="text-slate-700 bg-white p-2.5 rounded-xl border border-slate-200">Next action here</div>
+          <div id="modalRepInfo" class="text-slate-500 text-[11px]">NVKD Phụ trách: Nguyễn Văn An</div>
+        </div>
+      </div>
+
+      <!-- Email Draft & Approval Slip Tabs -->
+      <div class="space-y-4">
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-xs font-bold text-slate-900 uppercase tracking-wider">✉️ Bản nháp Email gửi khách hàng (Tự động soạn thảo)</label>
+            <button onclick="copyEmail()" class="text-xs text-purple-600 font-bold hover:underline flex items-center space-x-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>Copy Email</span>
+            </button>
+          </div>
+          <textarea id="modalDraftEmail" rows="6" class="w-full text-xs p-3 font-mono bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-purple-400"></textarea>
+          <div class="flex justify-end mt-2">
+            <button onclick="alert('Đã ghi nhận gửi email phản hồi tới khách hàng thành công!')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-xs transition">
+              🚀 NVKD Xác nhận &amp; Gửi Email
+            </button>
+          </div>
+        </div>
+
+        <div id="modalApprovalBox" class="border-t border-slate-100 pt-4 hidden">
+          <label class="text-xs font-bold text-blue-900 uppercase tracking-wider">📝 Phiếu Chuyển Duyệt Trưởng Phòng (Vượt Hạn Mức)</label>
+          <textarea id="modalApprovalSlip" rows="5" readonly class="w-full text-xs p-3 font-mono bg-blue-50/50 border border-blue-200 rounded-xl mt-1.5"></textarea>
+          <div class="flex items-center justify-end space-x-3 mt-2">
+            <button onclick="alert('Trưởng phòng ĐÃ PHÊ DUYỆT chính sách ngoại lệ cho cơ hội này!')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition">
+              ✅ Trưởng phòng Phê duyệt
+            </button>
+            <button onclick="alert('Trưởng phòng ĐÃ TỪ CHỐI đề xuất ngoại lệ.')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-xs transition">
+              ❌ Từ chối
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT ENGINE -->
+  <script>
+    let appState = null;
+    let paydBarChart = null;
+    let selectedSourceMode = 'sample';
+    let chosenUploadedFile = null;
+
+    function switchMainScreen(screenId) {
+      document.getElementById('screenLauncher').classList.add('hidden');
+      document.getElementById('screenDashboard').classList.add('hidden');
+
+      document.getElementById('btnTabLaunch').className = "px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center space-x-1.5";
+      document.getElementById('btnTabDashboard').className = "px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center space-x-1.5";
+
+      document.getElementById(screenId).classList.remove('hidden');
+
+      if (screenId === 'screenLauncher') {
+        document.getElementById('btnTabLaunch').className = "px-4 py-2 rounded-xl bg-white shadow-sm text-slate-900 font-extrabold transition flex items-center space-x-1.5";
+      } else {
+        document.getElementById('btnTabDashboard').className = "px-4 py-2 rounded-xl bg-white shadow-sm text-slate-900 font-extrabold transition flex items-center space-x-1.5";
+        renderPaydChart();
+      }
+    }
+
+    function selectDataSource(mode) {
+      selectedSourceMode = mode;
+      const cSample = document.getElementById('card-src-sample');
+      const cFile = document.getElementById('card-src-file');
+      const cSheet = document.getElementById('card-src-sheet');
+      const customArea = document.getElementById('customInputArea');
+      const fileLabel = document.getElementById('fileChosenLabel');
+      const sheetBox = document.getElementById('sheetInputBox');
+
+      // Reset styles
+      [cSample, cFile, cSheet].forEach(c => {
+        c.className = "p-5 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition space-y-2";
+      });
+      customArea.classList.add('hidden');
+      fileLabel.classList.add('hidden');
+      sheetBox.classList.add('hidden');
+
+      if (mode === 'sample') {
+        cSample.className = "p-5 rounded-2xl border-2 border-purple-500 bg-purple-50/40 cursor-pointer transition space-y-2";
+      } else if (mode === 'file') {
+        cFile.className = "p-5 rounded-2xl border-2 border-purple-500 bg-purple-50/40 cursor-pointer transition space-y-2";
+        customArea.classList.remove('hidden');
+        fileLabel.classList.remove('hidden');
+        document.getElementById('localFileInput').click();
+      } else if (mode === 'sheet') {
+        cSheet.className = "p-5 rounded-2xl border-2 border-purple-500 bg-purple-50/40 cursor-pointer transition space-y-2";
+        customArea.classList.remove('hidden');
+        sheetBox.classList.remove('hidden');
+      }
+    }
+
+    function handleFileChosen(e) {
+      if (e.target.files && e.target.files[0]) {
+        chosenUploadedFile = e.target.files[0];
+        const fl = document.getElementById('fileChosenLabel');
+        fl.textContent = `Đã chọn file: ${chosenUploadedFile.name} (${Math.round(chosenUploadedFile.size/1024)} KB)`;
+        fl.classList.remove('hidden');
+      }
+    }
+
+    // THỰC THI WORKFLOW TUẦN TỰ THEO ĐÚNG CÁC BƯỚC
+    async function executeWorkflowProcess() {
+      const btn = document.getElementById('mainStartBtn');
+      const pBox = document.getElementById('runProgressBox');
+      const pText = document.getElementById('runProgressText');
+      const pPct = document.getElementById('runProgressPercent');
+      const pBar = document.getElementById('runProgressBar');
+
+      btn.disabled = true;
+      btn.classList.add('opacity-50', 'cursor-not-allowed');
+      pBox.classList.remove('hidden');
+
+      // Reset step cards visual state
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById(`step-card-${i}`).className = "bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2 transition-all";
+        document.getElementById(`step-icon-${i}`).textContent = "⏳";
+      }
+
+      // Step 1: Dùng AI template & Sheet / Lark base
+      highlightStepCard(1, true);
+      pText.textContent = "Bước 1/5: Đang nạp AI Template và kết nối Sheet / Lark Base...";
+      pPct.textContent = "20%";
+      pBar.style.width = "20%";
+      
+      // Thực hiện nạp dữ liệu backend
+      try {
+        if (selectedSourceMode === 'sample') {
+          await fetch('/api/load_sample', { method: 'POST' });
+        } else if (selectedSourceMode === 'sheet') {
+          const url = document.getElementById('sheetUrlText').value.trim();
+          if (url) {
+            await fetch('/api/load_google_sheet', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ url })
+            });
+          }
+        } else if (selectedSourceMode === 'file' && chosenUploadedFile) {
+          const formData = new FormData();
+          formData.append('file', chosenUploadedFile);
+          await fetch('/api/upload_file', { method: 'POST', body: formData });
+        }
+      } catch (err) {
+        console.warn("Backend load notification:", err);
+      }
+      await sleep(650);
+      highlightStepCard(1, false, true);
+
+      // Step 2: Cleaning dữ liệu
+      highlightStepCard(2, true);
+      pText.textContent = "Bước 2/5: Đang Cleaning, bóc tách thực thể và kiểm tra tính đầy đủ thông tin...";
+      pPct.textContent = "45%";
+      pBar.style.width = "45%";
+      await sleep(650);
+      highlightStepCard(2, false, true);
+
+      // Step 3: Process nghiệp vụ
+      highlightStepCard(3, true);
+      pText.textContent = "Bước 3/5: Đang Process thẩm định tồn kho Vận hành và tra giá Catalog...";
+      pPct.textContent = "70%";
+      pBar.style.width = "70%";
+      await sleep(650);
+      highlightStepCard(3, false, true);
+
+      // Step 4: Verify & Phân quyền
+      highlightStepCard(4, true);
+      pText.textContent = "Bước 4/5: Đang Verify ranh giới thẩm quyền (Hạn mức 300M, Chiết khấu 5%)...";
+      pPct.textContent = "90%";
+      pBar.style.width = "90%";
+      await sleep(600);
+      highlightStepCard(4, false, true);
+
+      // Step 5: Xuất HTML Dashboard & Báo cáo
+      highlightStepCard(5, true);
+      pText.textContent = "Bước 5/5: Verify thành công! Đang xuất HTML Dashboard Payd và Báo cáo...";
+      pPct.textContent = "100%";
+      pBar.style.width = "100%";
+      await sleep(600);
+      highlightStepCard(5, false, true);
+
+      // Load state mới nhất
+      await fetchState();
+
+      btn.disabled = false;
+      btn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+      // Tự động chuyển mượt sang Payd Dashboard
+      switchMainScreen('screenDashboard');
+    }
+
+    function highlightStepCard(stepNum, isActive, isDone = false) {
+      const card = document.getElementById(`step-card-${stepNum}`);
+      const icon = document.getElementById(`step-icon-${stepNum}`);
+      if (isActive) {
+        card.className = "bg-purple-50 p-4 rounded-xl border-2 border-purple-600 shadow-md space-y-2 transition-all transform scale-[1.02]";
+        icon.textContent = "⚡";
+      } else if (isDone) {
+        card.className = "bg-emerald-50/60 p-4 rounded-xl border border-emerald-400 shadow-xs space-y-2 transition-all";
+        icon.textContent = "✅";
+      }
+    }
+
+    function sleep(ms) {
+      return new Promise(r => setTimeout(r, ms));
+    }
+
+    async function fetchState() {
+      try {
+        const res = await fetch('/api/state');
+        appState = await res.json();
+        updateDashboardUI();
+      } catch (err) {
+        console.error("Lỗi fetch state:", err);
+      }
+    }
+
+    function updateDashboardUI() {
+      if (!appState) return;
+      const fin = appState.summary.financials;
+      document.getElementById('metricValQualified').textContent = (fin.total_value_qualified || 0).toLocaleString('vi-VN') + ' VNĐ';
+      document.getElementById('metricValPending').textContent = (fin.total_value_pending_approval || 0).toLocaleString('vi-VN') + ' VNĐ';
+      document.getElementById('metricValTotal').textContent = (fin.total_active_pipeline_value || 0).toLocaleString('vi-VN') + ' VNĐ';
+
+      filterDashboardTable();
+    }
+
+    function filterDashboardTable() {
+      if (!appState) return;
+      const filter = document.getElementById('tableFilterStatus').value;
+      const search = (document.getElementById('paydSearchInput').value || '').toLowerCase().trim();
+      const tbody = document.getElementById('dashboardTableBody');
+      tbody.innerHTML = '';
+
+      const filtered = appState.dossiers.filter(d => {
+        const matchStatus = (filter === 'ALL' || d.status === filter);
+        const matchSearch = (!search ||
+          d.opportunity_id.toLowerCase().includes(search) ||
+          d.customer_name.toLowerCase().includes(search) ||
+          d.assigned_rep.name.toLowerCase().includes(search)
+        );
+        return matchStatus && matchSearch;
+      });
+
+      filtered.forEach(d => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 cursor-pointer transition border-b border-slate-100';
+        tr.onclick = () => openDossier(d);
+
+        let badgeClass = 'bg-slate-100 text-slate-700';
+        if (d.status === 'Có thể tiếp tục') badgeClass = 'bg-emerald-100 text-emerald-800';
+        else if (d.status === 'Cần bổ sung thông tin') badgeClass = 'bg-amber-100 text-amber-800';
+        else if (d.status === 'Chưa đáp ứng') badgeClass = 'bg-rose-100 text-rose-800';
+        else if (d.status === 'Chờ duyệt') badgeClass = 'bg-blue-100 text-blue-800';
+
+        const p = d.pricing;
+        const listStr = p.total_list_price > 0 ? p.total_list_price.toLocaleString('vi-VN') + ' đ' : '-';
+        const finalStr = p.final_proposed_price > 0 ? p.final_proposed_price.toLocaleString('vi-VN') + ' đ' : '-';
+
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-mono font-bold text-purple-700">${d.opportunity_id}</td>
+          <td class="py-3 px-4 font-bold text-slate-900">${d.customer_name}</td>
+          <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${badgeClass}">${d.status}</span></td>
+          <td class="py-3 px-4 text-slate-500">${d.assigned_rep.name}</td>
+          <td class="py-3 px-4 text-right text-slate-500">${listStr}</td>
+          <td class="py-3 px-4 text-center font-bold text-slate-800">${p.applied_discount_percent}%</td>
+          <td class="py-3 px-4 text-right font-extrabold text-slate-900">${finalStr}</td>
+          <td class="py-3 px-4 text-center text-slate-500">${d.lead_time_days} ngày</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderPaydChart() {
+      const ctx = document.getElementById('paydBarChartCanvas');
+      if (!ctx) return;
+      if (paydBarChart) paydBarChart.destroy();
+
+      paydBarChart = new Chart(ctx.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['Mar 1 - 7', 'Mar 8 - 14', 'Mar 15 - 21', 'Mar 22 - 28', 'Final wk'],
+          datasets: [{
+            data: [42000, 120000, 118000, 122000, 185000],
+            backgroundColor: '#e9d5ff', // Tím pastel lavender chuẩn ảnh 1
+            hoverBackgroundColor: '#d8b4fe',
+            borderRadius: 14,
+            borderSkipped: false,
+            barThickness: 52
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              min: 0,
+              max: 200000,
+              ticks: {
+                stepSize: 50000,
+                color: '#94a3b8',
+                font: { size: 10, weight: 'bold' },
+                callback: v => v.toLocaleString()
+              },
+              grid: { color: 'rgba(241, 245, 249, 0.9)', drawBorder: false }
+            },
+            x: {
+              ticks: { color: '#64748b', font: { size: 10, weight: 'bold' } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    function openDossierById(reqId) {
+      if (!appState) return;
+      const d = appState.dossiers.find(x => x.request_id === reqId || x.opportunity_id.includes(reqId));
+      if (d) openDossier(d);
+    }
+
+    function openDossier(d) {
+      document.getElementById('modalOppId').textContent = d.opportunity_id;
+      document.getElementById('modalCustName').textContent = d.customer_name;
+      document.getElementById('modalContact').textContent = 'Liên hệ: ' + (d.contact_info || 'Chưa có thông tin');
+      document.getElementById('modalStatusBadge').textContent = d.status;
+
+      let badgeClass = 'bg-slate-100 text-slate-700';
+      if (d.status === 'Có thể tiếp tục') badgeClass = 'bg-emerald-100 text-emerald-800';
+      else if (d.status === 'Cần bổ sung thông tin') badgeClass = 'bg-amber-100 text-amber-800';
+      else if (d.status === 'Chưa đáp ứng') badgeClass = 'bg-rose-100 text-rose-800';
+      else if (d.status === 'Chờ duyệt') badgeClass = 'bg-blue-100 text-blue-800';
+      document.getElementById('modalStatusBadge').className = `px-3 py-1 rounded-full text-xs font-bold ${badgeClass}`;
+
+      // Items table
+      const tbody = document.getElementById('modalItemsBody');
+      tbody.innerHTML = '';
+      d.items_table.forEach(it => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="p-2.5 font-mono font-bold text-slate-900">${it.sku}</td>
+          <td class="p-2.5 text-slate-700">${it.product_name}</td>
+          <td class="p-2.5 text-center font-bold">${it.requested_qty}</td>
+          <td class="p-2.5 text-right">${it.list_price.toLocaleString('vi-VN')} đ</td>
+          <td class="p-2.5 text-center">${it.is_stock_available ? '✅ Sẵn kho' : '❌ Thiếu (' + it.available_stock + ')'}</td>
+          <td class="p-2.5 text-center">${it.min_lead_time_days} ngày</td>
+          <td class="p-2.5 text-right font-bold">${it.subtotal.toLocaleString('vi-VN')} đ</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // Pricing & next step
+      const p = d.pricing;
+      document.getElementById('modalListPrice').textContent = p.total_list_price.toLocaleString('vi-VN') + ' VNĐ';
+      document.getElementById('modalDiscount').textContent = p.applied_discount_percent + '%';
+      document.getElementById('modalFinalPrice').textContent = p.final_proposed_price.toLocaleString('vi-VN') + ' VNĐ';
+      document.getElementById('modalBudget').textContent = p.budget > 0 ? p.budget.toLocaleString('vi-VN') + ' VNĐ' : 'Chưa khai báo';
+      document.getElementById('modalNextStep').textContent = d.next_action;
+      document.getElementById('modalRepInfo').textContent = `NVKD Phụ trách: ${d.assigned_rep.name} (${d.assigned_rep.email})`;
+
+      // Draft Email
+      document.getElementById('modalDraftEmail').value = d.draft_email;
+
+      // Approval Slip
+      const box = document.getElementById('modalApprovalBox');
+      if (d.approval_slip) {
+        box.classList.remove('hidden');
+        document.getElementById('modalApprovalSlip').value = d.approval_slip;
+      } else {
+        box.classList.add('hidden');
+      }
+
+      document.getElementById('dossierModal').classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function copyEmail() {
+      const email = document.getElementById('modalDraftEmail');
+      email.select();
+      navigator.clipboard.writeText(email.value);
+      alert('Đã sao chép nội dung Email vào Clipboard!');
+    }
+
+    // Khởi tạo
+    fetchState();
+  </script>
+</body>
+</html>
